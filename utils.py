@@ -28,7 +28,7 @@ def get_n_binary_patterns(n_patterns, pattern_dim, probability=0.5, plot=False, 
             for j in range(n_patterns):
                 ovlps[i, j] = np.dot(p[i], p[j]) / pattern_dim
         # ax.imshow(ovlps.T, cmap='gray')
-        plt.colorbar(ax.imshow(ovlps.T, cmap='gray'), ax=ax)
+        plt.colorbar(ax.imshow(ovlps.T, cmap='gray_r'), ax=ax)
         ax.set_title("Overlaps between patterns")
         ax.set_xlabel("Pattern index")
         ax.set_ylabel("Pattern index")
