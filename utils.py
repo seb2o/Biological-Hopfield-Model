@@ -33,3 +33,34 @@ def get_n_binary_patterns(n_patterns, pattern_dim, probability=0.5, plot=False, 
         ax.set_xlabel("Pattern index")
         ax.set_ylabel("Pattern index")
     return p
+
+
+def get_weights(patterns, self_connections=False, show_weights=False):
+    n_patterns = patterns.shape[0]
+    weights = np.zeros((patterns.shape[1], patterns.shape[1]))
+    for i in range(patterns.shape[0]):
+        weights += np.outer(patterns[i], patterns[i])
+    weights /= n_patterns
+
+    if not self_connections:
+        np.fill_diagonal(weights, 0)
+
+    # show the weights, with colorbar to map color and value
+    if show_weights:
+        plt.imshow(weights, cmap='gray_r', interpolation='nearest')
+        plt.colorbar()
+        plt.title("Weights")
+        plt.xlabel("Presynaptic neuron")
+        plt.ylabel("Postsynaptic neuron")
+
+    return weights
+
+
+def compute_next_state(current_state, weights):
+    h = weights @ current_state
+    return np.sign(h)
+
+def network_step(current_state, patterns):
+    weights = get_weights(patterns, self_connections=False)
+    next_state = compute_next_state(current_state, weights)
+    return next_state
