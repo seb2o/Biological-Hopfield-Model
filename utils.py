@@ -64,3 +64,27 @@ def network_step(current_state, patterns):
     weights = get_weights(patterns, self_connections=False)
     next_state = compute_next_state(current_state, weights)
     return next_state
+
+def overlap(x,y):
+    return np.dot(x,y) / len(x)
+
+def compute_next_state_with_overlaps(current_state, patterns):
+    h = np.zeros(current_state.shape)
+    for p in patterns:
+        o = overlap(current_state, p)
+        h += (o * p)
+    return np.sign(h)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
