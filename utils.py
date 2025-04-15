@@ -38,8 +38,10 @@ def get_n_binary_patterns(n_patterns, pattern_dim, probability=0.5, plot=False, 
 
 def get_weights(patterns, self_connections=False, show_weights=False):
     n_patterns = patterns.shape[0]
-    weights = np.zeros((patterns.shape[1], patterns.shape[1]))
-    for i in range(patterns.shape[0]):
+    dim_patterns = patterns.shape[1]
+    weights = np.zeros((dim_patterns, dim_patterns))
+    #the weights matrix is the sum of the outer products of each pattern with itself
+    for i in range(n_patterns):
         weights += np.outer(patterns[i], patterns[i])
     weights /= n_patterns
 
@@ -48,6 +50,7 @@ def get_weights(patterns, self_connections=False, show_weights=False):
 
     # show the weights, with colorbar to map color and value
     if show_weights:
+        plt.figure()
         plt.imshow(weights, cmap='gray_r', interpolation='nearest')
         plt.colorbar()
         plt.title("Weights")
