@@ -74,9 +74,9 @@ def get_weights_with_loops(patterns):
 
     return weights
 
-def compute_next_state(current_state, weights):
+def compute_next_state(current_state, weights, return_h=False):
     h = weights @ current_state
-    return np.sign(h)
+    return h if return_h else np.sign(h)
 
 def compute_next_state_with_loops(current_state, weights):
     h = np.zeros(current_state.shape)
@@ -95,12 +95,12 @@ def overlap(x,y):
         raise ValueError("Vectors must be the same length")
     return np.dot(x,y) / len(x)
 
-def compute_next_state_with_overlaps(current_state, patterns):
+def compute_next_state_with_overlaps(current_state, patterns, return_h=False):
     h = np.zeros(current_state.shape)
     for p in patterns:
         o = overlap(current_state, p)
         h += (o * p)
-    return np.sign(h)
+    return h if return_h else np.sign(h)
 
 def compute_next_state_with_overlaps_vectorized(current_state, patterns):
     n_patterns = patterns.shape[0]
