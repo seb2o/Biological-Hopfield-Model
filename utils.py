@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+# TODO: edge case with np.sign returns 0 for 0 values
 
 def get_n_binary_patterns(n_patterns, pattern_dim, probability=0.5, plot=False, check_overlaps=False):
     """
