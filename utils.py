@@ -91,6 +91,8 @@ def network_step(current_state, patterns):
     return next_state
 
 def overlap(x,y):
+    if len(x) != len(y):
+        raise ValueError("Vectors must be the same length")
     return np.dot(x,y) / len(x)
 
 def compute_next_state_with_overlaps(current_state, patterns):
