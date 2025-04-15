@@ -59,6 +59,20 @@ def get_weights(patterns, self_connections=False, show_weights=False):
 
     return weights
 
+def get_weights_with_loops(patterns):
+    n_patterns, dim_patterns = patterns.shape
+
+    weights = np.zeros((dim_patterns, dim_patterns))
+    #the weights matrix is the sum of the outer products of each pattern with itself
+    for i in range(dim_patterns):
+        for j in range(dim_patterns):
+            for mu in range(n_patterns):
+                weights[i, j] += patterns[mu, i] * patterns[mu, j]
+    weights /= n_patterns
+
+    np.fill_diagonal(weights, 0)
+
+    return weights
 
 def compute_next_state(current_state, weights):
     h = weights @ current_state
