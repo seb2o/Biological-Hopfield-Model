@@ -78,6 +78,13 @@ def compute_next_state(current_state, weights):
     h = weights @ current_state
     return np.sign(h)
 
+def compute_next_state_with_loops(current_state, weights):
+    h = np.zeros(current_state.shape)
+    for current_unit in range(len(h)):
+        for previous_unit in range(len(h)):
+            h[current_unit] += weights[current_unit, previous_unit] * current_state[previous_unit]
+    return np.sign(h)
+
 def network_step(current_state, patterns):
     weights = get_weights(patterns, self_connections=False)
     next_state = compute_next_state(current_state, weights)
