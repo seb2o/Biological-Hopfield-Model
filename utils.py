@@ -103,7 +103,6 @@ def compute_next_state_with_overlaps(current_state, patterns, return_h=False):
     return h if return_h else np.sign(h)
 
 def compute_next_state_with_overlaps_vectorized(current_state, patterns):
-    n_patterns = patterns.shape[0]
     n_dim = patterns.shape[1]
     overlaps = patterns @ current_state / n_dim
     weighted_patterns = overlaps[:, np.newaxis] * patterns
@@ -112,19 +111,19 @@ def compute_next_state_with_overlaps_vectorized(current_state, patterns):
 
 
 
-def compute_next_state_with_overlaps_loops(current_state, patterns):
+def compute_next_state_with_overlaps_loops(current_state, patterns, return_h = False):
     h = np.zeros(current_state.shape)
     overlaps = np.zeros(patterns.shape[0])
+    N = len(current_state)
+    P = len(patterns)
 
-    for mu in range(len(patterns)):
-        overlaps[mu] = overlap(current_state, patterns[mu])
+    for mu in range(P):
+        overlaps[mu] = np.sum([patterns[mu,i]*current_state[i] for i in range(N)])/N
 
-    for unit_index in range(len(h)):
-        for pattern_index in range(len(patterns)):
-            h[unit_index] += overlaps[pattern_index] * patterns[pattern_index][unit_index]
+    for i in range(N):
+        h[i] = np.sum([overlaps[mu]*patterns[mu,i] for mu in range(P)])
 
-    return np.sign(h)
-
+    return h if return_h else np.sign(h)
 
 
 
