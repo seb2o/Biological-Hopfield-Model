@@ -36,19 +36,19 @@ def compute_next_state_with_overlaps_loops(current_state, patterns, return_h=Fal
     return h if return_h else np.sign(h)
 
 
+if __name__ == "__main__":
+    NETWORK_DIM = 1340
+    c = 0.134
+    n_patterns = int(c * NETWORK_DIM)
 
-NETWORK_DIM = 1340
-c = 0.134
-n_patterns = int(c * NETWORK_DIM)
+    patterns = np.random.binomial(1, 0.5, size=(n_patterns, NETWORK_DIM)) * 2 - 1
+    current_state = np.random.binomial(1, 0.5, size=NETWORK_DIM) * 2 - 1
 
-patterns = np.random.binomial(1, 0.5, size=(n_patterns, NETWORK_DIM)) * 2 - 1
-current_state = np.random.binomial(1, 0.5, size=NETWORK_DIM) * 2 - 1
+    weights = get_weights(patterns)
+    ns_standard_h = compute_next_state(current_state, weights, return_h=True)
 
-weights = get_weights(patterns)
-ns_standard_h = compute_next_state(current_state, weights, return_h=True)
-
-ns_overlap_h = compute_next_state_with_overlaps_loops(current_state, patterns, return_h=True)
+    ns_overlap_h = compute_next_state_with_overlaps_loops(current_state, patterns, return_h=True)
 
 
-plt.hist(ns_standard_h - ns_overlap_h, bins=100)
-plt.show()
+    plt.hist(ns_standard_h - ns_overlap_h, bins=100)
+    plt.show()
