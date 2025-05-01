@@ -39,8 +39,15 @@ def get_n_binary_patterns(n_patterns, pattern_dim, probability=0.5, plot=False, 
         ax.grid(False)
     return p
 
+def generate_masks(N):
+    masks = np.zeros((N, N), dtype=int)
+    for i in range(N):
+        indices = np.random.choice(N, N // 2, replace=False)
+        masks[i, indices] = 1
+    return masks
 
-def get_weights(patterns, self_connections=False, show_weights=False):
+
+def get_weights(patterns, self_connections=True, show_weights=False, diluted=False):
     n_patterns = patterns.shape[0]
     dim_patterns = patterns.shape[1]
     weights = np.zeros((dim_patterns, dim_patterns))
@@ -51,6 +58,11 @@ def get_weights(patterns, self_connections=False, show_weights=False):
 
     if not self_connections:
         np.fill_diagonal(weights, 0)
+
+    if diluted:
+        mask = generate_masks(dim_patterns)
+        weights *= mask
+
 
     # show the weights, with colorbar to map color and value
     if show_weights:
