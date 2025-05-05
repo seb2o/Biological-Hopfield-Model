@@ -8,7 +8,7 @@ def get_weights(patterns):
     #the weights matrix is the sum of the outer products of each pattern with itself
     for i in range(n_patterns):
         weights += np.outer(patterns[i], patterns[i])
-    weights /= n_patterns
+    weights /= network_dim
 
     return weights
 

@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # TODO: edge case with np.sign returns 0 for 0 values
+# TODO: correct pattern generation to be equal number of 1s and -1s (use np.random.choice on indices)
 
 def get_n_binary_patterns(n_patterns, pattern_dim, probability=0.5, plot=False, check_overlaps=False):
     """
@@ -54,7 +55,7 @@ def get_weights(patterns, self_connections=True, show_weights=False, diluted=Fal
     #the weights matrix is the sum of the outer products of each pattern with itself
     for i in range(n_patterns):
         weights += np.outer(patterns[i], patterns[i])
-    weights /= n_patterns
+    weights /= dim_patterns
 
     if not self_connections:
         np.fill_diagonal(weights, 0)
