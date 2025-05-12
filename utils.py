@@ -4,27 +4,34 @@ import matplotlib.pyplot as plt
 # TODO: edge case with np.sign returns 0 for 0 values
 # TODO: correct pattern generation to be equal number of 1s and -1s (use np.random.choice on indices)
 
-def get_n_binary_patterns(n_patterns, pattern_dim, probability=0.5, plot=False, check_overlaps=False):
+def get_n_binary_patterns(n_patterns, pattern_dim, plot_patterns=False, plot_patterns_overlaps=False):
     """
-    Generate n binary patterns of dimension pattern_dim with a given probability (default is balanced).
+    Generate n binary patterns of dimension pattern_dim with equal number of -1 and 1s.
 
     Args:
         :param n_patterns: (int) Number of patterns to generate.
         :param pattern_dim: (int): Dimension of each pattern.
-        :param probability: (float): default 0.5. Probability of 1 in the generated patterns.
-        :param plot: (bool): If True, plot the generated patterns.
-        :param check_overlaps: if True, show overlap between pairs of patterns, sanity check to ensure pattern overlap is near 0 for different patterns and 1 for same patterns.
+        :param plot_patterns: (bool): If True, plot the generated patterns.
+        :param plot_patterns_overlaps: if True, show overlap between pairs of patterns, sanity check to ensure pattern overlap is near 0 for different patterns and 1 for same patterns.
     Returns:
         np.ndarray: Array of shape (n_patterns, pattern_dim) containing the generated binary patterns.
 
     """
-    p = np.random.binomial(1, probability, size=(n_patterns, pattern_dim)) * 2 - 1
-    if plot:
+    # p = np.random.binomial(1, probability, size=(n_patterns, pattern_dim)) * 2 - 1
+
+    p = np.zeros((n_patterns, pattern_dim), dtype=int) - 1
+
+    for i in range(n_patterns):
+        indices = np.random.choice(pattern_dim, pattern_dim // 2, replace=False)
+        p[i, indices] = 1
+
+
+    if plot_patterns:
         fig, ax = plt.subplots(1, 1, figsize=(10, 10))
         ax.imshow(p, cmap='gray')
         ax.set_title(f"Generated {n_patterns} binary patterns of dimension {pattern_dim}")
         ax.grid(False)
-    if check_overlaps:
+    if plot_patterns_overlaps:
         fig, ax = plt.subplots(1, 1)
         ovlps = np.zeros((n_patterns, n_patterns))
         for i in range(n_patterns):
