@@ -152,17 +152,17 @@ def compute_next_state_with_overlaps_loops(current_state, patterns, return_h = F
 
 def compute_next_state_stochastic(current_state, weights, b):
     h = current_state @ weights
-    s = (1 + np.tanh(b*h))/2
-    return s
+    prob = (1 + np.tanh(b*h))/2
+    return np.random.rand(len(current_state)) < prob
 
 def overlap_stochastic(a, b):
     return 2*np.dot(a, b)/len(a)
 
 def compute_next_state_stochastic_refractory(current_state, weights, b):
     h = current_state @ weights
-    s = (1 + np.tanh(b*h))/2
-    s[current_state == 1] = 0
-    return s
+    prob = (1 + np.tanh(b*h))/2
+    prob[current_state == 1] = 0
+    return np.random.rand(len(current_state)) < prob
 
 
 
