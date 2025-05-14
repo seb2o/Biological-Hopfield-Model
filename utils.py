@@ -150,8 +150,13 @@ def compute_next_state_with_overlaps_loops(current_state, patterns, return_h = F
     return h if return_h else np.sign(h)
 
 
+def compute_next_state_stochastic(current_state, weights, b):
+    h = current_state @ weights
+    s = (1 + np.tanh(b*h))/2
+    return s
 
-
+def overlap_stochastic(a, b):
+    return 2*np.dot(a, b)/len(a)
 
 
 
