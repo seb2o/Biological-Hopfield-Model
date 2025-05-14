@@ -2,7 +2,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # TODO: edge case with np.sign returns 0 for 0 values
-# TODO: correct pattern generation to be equal number of 1s and -1s (use np.random.choice on indices)
 
 def get_n_binary_patterns(n_patterns, pattern_dim, plot_patterns=False, plot_patterns_overlaps=False):
     """
@@ -80,6 +79,7 @@ def get_weights(patterns, self_connections=True, show_weights=False, diluted=Fal
         plt.title("Weights")
         plt.xlabel("Presynaptic neuron")
         plt.ylabel("Postsynaptic neuron")
+        plt.grid(False)
 
     return weights
 
